@@ -47,4 +47,4 @@ plt.title('Curva de Validación: Sesgo vs. Varianza')
 plt.legend()
 plt.yscale('log')  # Usar escala logarítmica para mejorar la visualización
 plt.grid(True)
-plt.show()
+plt.show()  # Asegúrate de llamar a plt.show() para mostrar el gráfico
