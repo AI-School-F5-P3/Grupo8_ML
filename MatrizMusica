@@ -1,0 +1,44 @@
+import pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.metrics import confusion_matrix, ConfusionMatrixDisplay
+import matplotlib.pyplot as plt
+
+# Paso 1: Cargar el dataset
+url = 'https://archive.ics.uci.edu/ml/machine-learning-databases/geo-music/geo_music.data'
+columns = ['Feature1', 'Feature2', 'Feature3', 'Feature4', 'Feature5', 'Class']
+df = pd.read_csv(url, header=None, names=columns)
+
+# Paso 2: Preprocesamiento
+# Convertir la columna 'Class' a tipo categórico
+df['Class'] = df['Class'].astype('category')
+df['Class'] = df['Class'].cat.codes
+
+# Separar características y etiquetas
+X = df.drop('Class', axis=1)
+y = df['Class']
+
+# Dividir los datos en conjunto de entrenamiento y prueba
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
+
+# Estandarizar las características
+scaler = StandardScaler()
+X_train = scaler.fit_transform(X_train)
+X_test = scaler.transform(X_test)
+
+# Paso 3: Entrenar el modelo
+model = RandomForestClassifier(n_estimators=100, random_state=42)
+model.fit(X_train, y_train)
+
+# Paso 4: Realizar predicciones
+y_pred = model.predict(X_test)
+
+# Paso 5: Crear la matriz de confusión
+cm = confusion_matrix(y_test, y_pred)
+disp = ConfusionMatrixDisplay(confusion_matrix=cm, display_labels=df['Class'].cat.categories)
+
+# Paso 6: Visualizar la matriz de confusión
+disp.plot(cmap=plt.cm.Blues)
+plt.title('Matriz de Confusión')
+plt.show()
