@@ -1,4 +1,3 @@
-import numpy as np
 import matplotlib.pyplot as plt
 from sklearn.datasets import fetch_california_housing
 from sklearn.model_selection import train_test_split
@@ -6,10 +5,14 @@ from sklearn.preprocessing import PolynomialFeatures
 from sklearn.linear_model import LinearRegression
 from sklearn.metrics import mean_squared_error
 
+
 # 1. Cargar el dataset "California Housing"
 housing = fetch_california_housing()
+# housing=pd.read_csv('housing.csv')
+# print(housing.head())
 X = housing.data
 y = housing.target
+
 
 # 2. Dividir en entrenamiento y prueba
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
